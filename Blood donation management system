@@ -1,0 +1,76 @@
+class Quiz:
+    def __init__(self, title):
+        self.title = title
+        self.questions = []
+
+    def add_question(self, question, options, correct_answer):
+        self.questions.append({
+            'question': question,
+            'options': options,
+            'correct_answer': correct_answer
+        })
+
+    def take_quiz(self):
+        score = 0
+        print("\n---", self.title, "---\n")
+        for i, q in enumerate(self.questions, 1):
+            print("Question", i, ":", q['question'])
+            for j, option in enumerate(q['options'], 1):
+                print(j, ".", option)
+            answer = input("Enter your choice (1, 2, 3, ...): ")
+            if answer == q['correct_answer']:
+                score += 1
+        print("\nYou scored", score, "out of", len(self.questions), "\n")
+
+class QuizPlatform:
+    def __init__(self):
+        self.quizzes = []
+
+    def create_quiz(self):
+        title = input("Enter the quiz title: ")
+        quiz = Quiz(title)
+        num_questions = int(input("Enter the number of questions: "))
+        for _ in range(num_questions):
+            question = input("Enter the question: ")
+            options = []
+            for i in range(4):
+                options.append(input(f"Option {i+1}: "))
+            correct_answer = input("Enter the correct answer (1, 2, 3, ...): ")
+            quiz.add_question(question, options, correct_answer)
+        self.quizzes.append(quiz)
+        print("Quiz created successfully!\n")
+
+    def take_quiz(self):
+        print("\n--- Available Quizzes ---")
+        for i, quiz in enumerate(self.quizzes, 1):
+            print(i, ".", quiz.title)
+        choice = int(input("Enter the quiz number you want to take: ")) - 1
+        if 0 <= choice < len(self.quizzes):
+            self.quizzes[choice].take_quiz()
+        else:
+            print("Invalid choice!\n")
+
+    def menu(self):
+        while True:
+            print("Welcome to the Online Quiz Platform")
+            print("1. Create a Quiz")
+            print("2. Take a Quiz")
+            print("3. Exit")
+            choice = input("Enter your choice: ")
+            if choice == '1':
+                self.create_quiz()
+            elif choice == '2':
+                self.take_quiz()
+            elif choice == '3':
+                print("Thank you for using the Online Quiz Platform!")
+                break
+            else:
+                print("Invalid choice!\n")
+
+if __name__ == "__main__":
+    platform = QuizPlatform()
+    platform.menu()
+if __name__ == "__main__":
+    platform = QuizPlatform()
+    platform.menu()
+    print("Exiting the program. Goodbye!")
